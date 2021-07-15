@@ -1,0 +1,25 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  max-width: 600px;
+
+  & > label {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  & > textarea {
+    min-height: 150px;
+    resize: none;
+    border-radius: 4px;
+  }
+
+  & > button {
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}

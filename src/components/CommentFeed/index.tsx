@@ -1,36 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Comment } from '../Comment'
 import { UserComment } from '../types/Comment'
+import styles from './styles.module.scss'
 
-const mock: UserComment[] = [
-  {
-    description:
-      'Um ninho de mafagafos Tinha sete mafagafinhos Quem desmafagafar o ninho de mafagafos Bom desmafagafador será',
-    audio: 'http://spoti4.future4.com.br/1.mp3',
-  },
-  {
-    description:
-      'O rato roeu a ropa do rei de Roma O sapo saltou do saco Se sacudiu e sumiu da soma',
-    audio: 'http://spoti4.future4.com.br/2.mp3',
-  },
-  {
-    description:
-      'Trazei três pratos de trigo para três tigres tristes comerem.',
-    audio: 'http://spoti4.future4.com.br/3.mp3',
-  },
-]
-
-export const CommentFeed = () => {
-  const [comments, setComments] = useState<UserComment[]>([])
-  useEffect(() => {
-    setComments(mock)
-  }, [comments])
+export const CommentFeed = ({ comments }: { comments: UserComment[] }) => {
   return (
-    <div>
-      <h2>Comentários</h2>
-      {comments.map((comment) => {
-        return <Comment comment={comment} />
-      })}
-    </div>
+    <section>
+      <div className={styles.feedContainer}>
+        <h2>Comentários</h2>
+        {comments.map((comment) => {
+          return <Comment comment={comment} />
+        })}
+      </div>
+    </section>
   )
 }
