@@ -9,7 +9,7 @@ export const CommentFeed = ({ comments }: { comments: UserComment[] }) => {
       <div className={styles.feedContainer}>
         <h2>Comentários</h2>
         {comments.map((comment) => {
-          return <Comment comment={comment} />
+          return <Comment key={comment.id} comment={comment} />
         })}
       </div>
     </section>

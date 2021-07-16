@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { createComment } from '../../services/api'
 import styles from './styles.module.scss'
 
 export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
@@ -8,9 +9,10 @@ export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
     setText(event.target.value)
   }
 
-  const sendComment = (event: React.FormEvent<HTMLButtonElement>) => {
+  const sendComment = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    console.log(text)
+    await createComment(text)
+    setText('')
     updateFeed()
   }
 

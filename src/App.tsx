@@ -3,37 +3,29 @@ import './App.scss'
 import { CommentFeed } from './components/CommentFeed'
 import { CommentForm } from './components/CommentForm'
 import { UserComment } from './components/types/Comment'
-
-const mock: UserComment[] = [
-  {
-    description:
-      'Um ninho de mafagafos Tinha sete mafagafinhos Quem desmafagafar o ninho de mafagafos Bom desmafagafador será',
-    audio: 'http://spoti4.future4.com.br/1.mp3',
-  },
-  {
-    description:
-      'O rato roeu a ropa do rei de Roma O sapo saltou do saco Se sacudiu e sumiu da soma',
-    audio: 'http://spoti4.future4.com.br/2.mp3',
-  },
-  {
-    description:
-      'Trazei três pratos de trigo para três tigres tristes comerem.',
-    audio: 'http://spoti4.future4.com.br/3.mp3',
-  },
-]
+import { getAllComments } from './services/api'
 
 function App() {
-  const [comments, setComments] = useState<UserComment[]>(mock)
+  const [comments, setComments] = useState<UserComment[]>([])
+  const [loading, setLoading] = useState(false)
 
-  const getFeed = () => {
-    setComments([
-      ...comments,
-      { description: `updated feed `, audio: 'updated audio' },
-    ])
+  const getFeed = async () => {
+    try {
+      setLoading(true)
+      const response = await getAllComments()
+      setComments(response.comments)
+    } catch (error) {
+      console.log(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
-    getFeed()
+    const startFeed = async () => {
+      await getFeed()
+    }
+    startFeed()
   }, [])
 
   return (
