@@ -1,33 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createComment } from '../../services/api'
+import { Loading } from '../Loading'
 import styles from './styles.module.scss'
 
 export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
   const [text, setText] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value)
   }
 
-  const sendComment = async (event: React.FormEvent<HTMLButtonElement>) => {
+  const sendComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await createComment(text)
-    setText('')
-    updateFeed()
+    try {
+      setLoading(true)
+      await createComment(text)
+      setText('')
+      updateFeed()
+    } catch (error) {
+      console.log(error.message)
+    } finally {
+      setLoading(false)
+    }
   }
+
+  useEffect(() => {
+    const commentInput = document.getElementById('comment-input')
+    if (commentInput) {
+      commentInput.oninvalid = (e: any) => {
+        e?.target?.setCustomValidity(
+          'Coloque pelo menos 6 caracteres e no máximo 200'
+        )
+      }
+      commentInput.oninput = (e: any) => {
+        e?.target?.setCustomValidity('')
+      }
+    }
+  }, [])
 
   return (
     <section>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={sendComment}>
         <label>Comentário</label>
         <textarea
-          name="comment "
-          rows={1}
-          value={text}
+          id="comment-input"
+          placeholder="Coloque algum texto, e.g: Hoje o dia está ensolarado"
+          minLength={6}
+          title="Coloque pelo menos 6 caracteres e no máximo 200"
+          maxLength={200}
+          required
+          name="comment description"
           onChange={handleTextChange}
         />
-        <button type="submit" onClick={sendComment}>
-          Cadastrar
+        <button type="submit">
+          {loading ? <Loading isButton /> : 'Cadastrar'}
         </button>
       </form>
     </section>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:3003'
+axios.defaults.baseURL = '/api'
 
 const getAllComments = async () => {
   const response = axios.get('/comment')
@@ -12,4 +12,9 @@ const createComment = async (description: string) => {
   return response.then((response) => response.data)
 }
 
-export { getAllComments, createComment }
+const deleteComment = async (id: string) => {
+  const response = axios.delete(`/comment/${id}`)
+  return response.then((response) => response.data)
+}
+
+export { getAllComments, createComment, deleteComment }
