@@ -22,8 +22,12 @@
     word-break: break-word;
   }
 
-  & > button {
-    padding: 0.5rem 1rem;
-    align-self: center;
+  & > div {
+    display: flex;
+    gap: 0.5rem;
+    button {
+      padding: 0.5rem 1rem;
+      align-self: center;
+    }
   }
 }

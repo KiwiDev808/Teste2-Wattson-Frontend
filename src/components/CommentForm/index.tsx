@@ -16,9 +16,9 @@ export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
     try {
       setLoading(true)
       await createComment(text)
-      setText('')
       updateFeed()
     } catch (error) {
+      console.log('axios message', error.response.data)
       console.log(error.message)
     } finally {
       setLoading(false)
@@ -27,6 +27,14 @@ export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
 
   useEffect(() => {
     const commentInput = document.getElementById('comment-input')
+    const commentForm = document.getElementById('comment-form')
+    if (commentForm) {
+      commentForm.onsubmit = (e: any) => {
+        if (commentInput) {
+          commentInput.value = ''
+        }
+      }
+    }
     if (commentInput) {
       commentInput.oninvalid = (e: any) => {
         e?.target?.setCustomValidity(
@@ -41,7 +49,7 @@ export const CommentForm = ({ updateFeed }: { updateFeed: Function }) => {
 
   return (
     <section>
-      <form className={styles.form} onSubmit={sendComment}>
+      <form id="comment-form" className={styles.form} onSubmit={sendComment}>
         <label>Comentário</label>
         <textarea
           id="comment-input"

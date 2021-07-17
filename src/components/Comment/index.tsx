@@ -15,8 +15,10 @@ export const Comment = ({
   return (
     <div className={styles.commentContainer}>
       <p>{comment.description}</p>
-      <button onClick={() => deleteComment(comment) as any}> Delete</button>
-      <button onClick={toggle as any}>{playing ? 'Pausar' : 'Ouvir'}</button>
+      <div>
+        <button onClick={() => deleteComment(comment) as any}> Delete</button>
+        <button onClick={toggle as any}>{playing ? 'Pausar' : 'Ouvir'}</button>
+      </div>
     </div>
   )
 }
